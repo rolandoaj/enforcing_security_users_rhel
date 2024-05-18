@@ -1,0 +1,64 @@
+---
+- name: Set password policy history to rhel 8.8 and major
+  block:
+    - name: Select minimal profile
+      shell: /usr/bin/authselect select minimal --force
+      register: result_auth
+
+    - name: show authselect select minimal --force output
+      debug:
+        msg: "{{ result_auth }}"
+
+    - name: Enable password history
+      shell: /usr/bin/authselect enable-feature with-pwhistory
+      register: result_pwhistory
+
+    - name: Show authselect enable-feature with-pwhistory output
+      debug:
+        msg: "{{ result_pwhistory }}"
+
+    - name: Copy jinja template to /etc/security/pwhistory.conf
+      template:
+        src: 'pwhistory.conf'
+        dest: /etc/security/pwhistory.conf
+
+    - name: Apply changes
+      shell: /usr/bin/authselect apply-changes
+      register: result_changes
+    
+    - name: Show changes
+      debug:
+        msg: "{{ result_changes }}"
+  when: ansible_facts['os_family'] == "RedHat" and ansible_distribution_version | float >= 8.8
+
+- name: Set password policy history to rhel 8.7 and minor
+
+  block:
+    - name: Backup /etc/pam.d/{system-auth, password-auth}
+      copy:
+        src: /etc/pam.d/{{ item }}
+        dest: /root/backp_{{ date }}/{{ item }}
+        owner: root
+        group: root
+        mode: '0644'
+      with_items:
+        - system-auth
+        - password-auth
+
+    - name: Copy jinja template to /etc/pam.d/{system-auth, password-auth}
+      template:
+        src: '{{ item }}.j2'
+        dest: /etc/pam.d/{{ item }}
+        group: root
+        owner: root
+        mode: '0644'
+      with_items:
+        - system-auth
+        - password-auth
+  when: ansible_facts['os_family'] == "RedHat" and ansible_distribution_version | float <= 8.7
+
+    
+
+
+
+      

@@ -1,0 +1,16 @@
+---
+- name: Copy /etc/login.defs to bckp directory
+  copy:
+    src: /etc/login.defs
+    dest: '/root/backp_{{ date }}/login.defs'
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Copy jinja template to /etc/login.defs
+  template:
+    src: logindef.j2
+    dest: /etc/login.defs
+    group: root
+    owner: root
+    mode: '0644'

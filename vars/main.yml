@@ -1,0 +1,32 @@
+---
+# vars file for users
+date: "{{ ansible_date_time.year }}-{{ ansible_date_time.month }}-{{ ansible_date_time.day }}"
+distro: "{{ ansible_distribution }}"
+version: "{{ ansible_distribution_version  }}"
+group: adminoperations
+giid: 1000
+passwd: Sunam2021!
+usersd:
+- { name: 'Rolando Antonio', id: 'rjimeneza', uid: '1001' }
+- { name: 'Cosme Fulanito', id: 'cfulanitoj', uid: '1002' }
+#lenght of passwords, it cannot be set to lower value than 6
+minlen: 10
+#the minimum number of digits in the new password
+dcredit: 1
+#the minimum number of lowercase characters
+lcredir: 1
+#the minimum number of uppercase characters
+ucredit: 1
+#the minimum number of other characters
+ocredit: 1
+#number of password to remember
+pass_rem: 5
+#Umask value moderate
+umask: 037
+#Max days to change password
+pass_max_days: 60
+#Min days to change password
+pass_min_days: 3
+#Minimun password lenght 
+pass_min_len: 10
+

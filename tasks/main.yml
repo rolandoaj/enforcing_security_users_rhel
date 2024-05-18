@@ -1,0 +1,34 @@
+---
+# tasks file for add-users
+- name: Check bckp directory
+  stat:
+    path: '/root/backp_{{ date }}'
+  register: directory_data
+
+- name: Create backup directory if it doesn't exist
+  file:
+    path: '/root/backp_{{ date }}'
+    state: directory
+    mode: '0755'
+    owner: root
+    group: root
+  when: not directory_data.stat.exists
+
+- name: Validate dependencies
+  include_tasks: check-dependencies.yml
+
+- name: Create users
+  include_tasks: create-users.yml
+
+- name: Enforcing politics to create strong passwords
+  include_tasks: enforcing-strong-password.yml
+
+- name: Life password 
+  include_tasks: logindefs.yml
+
+- name: Password History
+  include_tasks: pwhistory.yml
+  
+
+  
+  
