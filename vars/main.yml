@@ -14,7 +14,7 @@ minlen: 10
 #the minimum number of digits in the new password
 dcredit: 1
 #the minimum number of lowercase characters
-lcredir: 1
+lcredit: 1
 #the minimum number of uppercase characters
 ucredit: 1
 #the minimum number of other characters

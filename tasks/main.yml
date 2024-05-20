@@ -14,9 +14,6 @@
     group: root
   when: not directory_data.stat.exists
 
-- name: Validate dependencies
-  include_tasks: check-dependencies.yml
-
 - name: Create users
   include_tasks: create-users.yml
 
